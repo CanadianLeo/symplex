@@ -10,9 +10,22 @@
     <script src="main.js"></script> 
 </head>
 <body>
-    <form class="conditions">
-        <select id="conditions">
-        </select>
-    </form> 
+    <form class="conditions" onsubmit="setMatrixSize()">
+        <div class="one-condition center-ps">
+            <label for="rows" class="center-ps">Выберите количевство строк </label>
+            <select name="rows" id="rows"></select>
+        </div>
+        <br>
+        <div class="one-condition center-ps">
+            <label for="columns" class="center-ps">Выберите количевство столбцов </label>
+            <select name="columns" id="columns"></select>
+        </div>
+        <div class="one-condition center-ps">
+            <a href="javascript: setMatrixSize()" class="submit-button center-ps">Изменить размеры матрицы</a>
+            <input type="hidden" value="Изменить размеры матрицы" />
+        </div>
+    </form>
+
+    <div class="matrix center-ps" id="matrix"></div>
 </body>
 </html>
