@@ -7,6 +7,7 @@ $(document).ready(function() {
         $('#columns').append("<option>" + i);
         $('#rows').append("<option>" + i);
     }
+    setMatrixSize();
 });
 
 function setMatrixSize() {

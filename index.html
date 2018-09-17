@@ -12,13 +12,19 @@
 <body>
     <form class="conditions" onsubmit="setMatrixSize()">
         <div class="one-condition center-ps">
-            <label for="rows" class="center-ps">Выберите количевство строк </label>
-            <select name="rows" id="rows"></select>
+            <label for="type" class="center-ps">Выберите тип задачи</label>
+            <select class="center-ps">
+                <option>min</option>
+                <option>max</option>
+            </select>
         </div>
-        <br>
         <div class="one-condition center-ps">
-            <label for="columns" class="center-ps">Выберите количевство столбцов </label>
-            <select name="columns" id="columns"></select>
+            <label for="rows" class="center-ps">Выберите количество строк </label>
+            <select id="rows"></select>
+        </div>
+        <div class="one-condition center-ps">
+            <label for="columns" class="center-ps">Выберите количество столбцов </label>
+            <select id="columns"></select>
         </div>
         <div class="one-condition center-ps">
             <a href="javascript: setMatrixSize()" class="submit-button center-ps">Изменить размеры матрицы</a>
@@ -27,5 +33,8 @@
     </form>
 
     <div class="matrix center-ps" id="matrix"></div>
+    <div class="one-condition center-ps">
+        <a href="javascript: calculateSymplex()" class="submit-button center-ps">Вычислить</a>
+    </div>
 </body>
 </html>
