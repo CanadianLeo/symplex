@@ -29,4 +29,12 @@ function setMatrixSize() {
         }
         $('#matrix').append('<br>');
     }
+    $('#matrix').append('<input type="text" size="3" class="matrix-input" disabled value="F">');
+    for (var j = 0; j <= needColumns; j++) {
+        $('#matrix').append('<input type="text" size="3" class="matrix-input">');
+    }
+}
+
+function calculate() {
+    
 }
