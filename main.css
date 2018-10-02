@@ -33,3 +33,7 @@ a:hover {
     border: 1px solid brown;
     background-color: brown;
 }
+
+table {
+    height: 150px;
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,24 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="jquery.js"></script>
-    <script src="main.js"></script> 
+    <script src="main.js"></script>
+    <script src="fraction.js"></script>
 </head>
+
 <body>
     <form class="conditions" onsubmit="setMatrixSize()">
         <div class="one-condition center-ps">
-            <label for="type" class="center-ps">Выберите тип задачи</label>
-            <select class="center-ps">
-                <option>min</option>
-                <option>max</option>
-            </select>
-        </div>
-        <div class="one-condition center-ps">
-            <label for="rows" class="center-ps">Выберите количество строк </label>
-            <select id="rows"></select>
-        </div>
-        <div class="one-condition center-ps">
-            <label for="columns" class="center-ps">Выберите количество столбцов </label>
+            <label for="columns" class="center-ps">Выберите количество переменных </label>
             <select id="columns"></select>
+        </div>
+        <div class="one-condition center-ps">
+            <label for="rows" class="center-ps">Выберите количество ограничений </label>
+            <select id="rows"></select>
         </div>
         <div class="one-condition center-ps">
             <a href="javascript: setMatrixSize()" class="submit-button center-ps">Изменить размеры матрицы</a>
@@ -34,7 +30,10 @@
 
     <div class="matrix center-ps" id="matrix"></div>
     <div class="one-condition center-ps">
-        <a href="javascript: calculateSymplex()" class="submit-button center-ps">Вычислить</a>
+        <a href="javascript: calculate()" class="submit-button center-ps">Вычислить</a>
     </div>
+
+    <div class="result center-ps" id="result"></div>
 </body>
+
 </html>
