@@ -1,0 +1,52 @@
+form {
+    padding-top: 10px;
+    text-align: center;
+    border: 3px solid green;
+    width: 400px;
+    margin: 0 auto;
+    padding-bottom: 15px;
+}
+
+table {
+    margin: 0 auto;
+    width: 100%;
+    border-collapse: collapse; 
+}
+
+.error {
+    color:red;
+}
+
+.error-input {
+    border-color: red;
+}
+
+body {
+    padding-top: 125px;
+    width: 500px;
+    margin: auto;
+}
+td, th {
+    padding: 2px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid black; /* Параметры рамки */
+    text-align: left; /* Выравнивание по левому краю */
+}
+
+button {
+    display: inline-block;
+    width: 100%;
+    padding: 8px;
+    color: black;
+    border: none;
+    text-align: center;
+    outline: none;
+    text-decoration: none;
+    background-color: white;
+
+}
+button:hover,
+button:active {
+    background-color: white;
+    color: black;
+    opacity: 0.5;
+}

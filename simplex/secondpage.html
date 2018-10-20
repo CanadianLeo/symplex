@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Page title</title>
+    <link rel="stylesheet" href="style.css">
+    <script href="jquery.js"></script>   
+</head>
+
+<body>
+    <script>
+        var s = "<form name='form1' onsubmit='return validation()' > Коэффициенты функции:<table><tr>";
+
+        var x = localStorage.getItem('per');
+
+        for (var i = 0; i < x; i++) {
+            s += "<td>x" + (i + 1) + "</td>";
+        }
+        s += "</tr><tr>";
+
+        for (var i = 0; i < x; i++) {
+            s += "<td>" + "<input id=" + '"celF' + i + '"' + " class='Table'  style='width: 50px'>" + "</td>";
+        }
+        s += "</tr></table> <br> <span style='color:#0c045c' id='warning'></span>";
+        s += "<input type='submit' value='Отправить' style='padding: 4px 16px; border-radius: 20px; background-color: #26bdff; color: black;'>";
+        document.body.innerHTML += s;
+    </script>
+
+    <script type="text/javascript">
+        function validation() {
+            mainFunction = [];
+            for (i = 0; i < x; i++) {
+                mainFunction.push(document.getElementById('celF' + i).value);
+                if ((mainFunction[i]) === '') {
+                    document.getElementById("warning").innerHTML = "*все поля обязательны для заполнения";
+                    return false;
+                }
+                if ((mainFunction[i].search(/\./i) === 0) || (mainFunction[i].search(/\//i) === 0)) {
+                    document.getElementById("warning").innerHTML = "*не используйте точек, запятых и / в начале";
+                    return false;
+                }
+                if (!(mainFunction[i].match(/[^\d\s\/\.-]/gi) === null)) {
+                    document.getElementById("warning").innerHTML =
+                        "*не используйте символов кроме цифр, точки или / с -";
+                    return false;
+                }
+                if ((mainFunction[i].substr(-1) === "/") || (mainFunction[i].substr(-1) === ".") || (mainFunction[i].substr(-1) === "-")) {
+                    document.getElementById("warning").innerHTML = "*не используйте точек, -, / в конце ";
+                    return false;
+                }
+                if (((mainFunction[i].split(".").length - 1) > 1) || ((mainFunction[i].split("/").length - 1) > 1) || ((mainFunction[i].split(
+                        "-").length - 1) > 1)) {
+                    document.getElementById("warning").innerHTML = "*не используйте много  точек, и / с - ";
+                    return false;
+                }
+            }
+            localStorage["mainFunction"] = mainFunction;
+            window.location.href = "thirdpage.html";
+            event.preventDefault();
+
+
+        }
+    </script>
+
+</body>
+
+</html>

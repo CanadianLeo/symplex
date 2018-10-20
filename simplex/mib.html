@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="fractionNew.js"></script>
+    
+    
+    <title>Page title</title>
+    <link rel="stylesheet" href="style.css">
+    <script href="jquery.js"></script> 
+</head>
+<body>
+<script>
+    g=parseInt(localStorage.getItem('ogr'));
+    stlb=parseInt(localStorage.getItem('per'));
+    b=localStorage.getItem('arrMat').split(',');
+    b.reverse();
+    funk=new Array(stlb+1).fill(0);
+
+
+        var k=0;  var stop=0; var idTab=0;
+
+    var a=[];
+    for(var i=0; i< g; i++) {
+        a[i] = [];
+        for (var j = 0; j < stlb + 1; j++) {
+            a[i][j] = b.pop();
+        }
+    }
+
+    //положительные константы:
+    for(var i=0; i<g;i++){
+        if((new Fraction(a[i][stlb]).s)===-1){
+            for(var j=0; j<stlb+1; j++){
+                a[i][j]=new Fraction(a[i][j]).multiply(new Fraction(-1))
+            }
+        }
+    }
+
+
+    for(var i=0; i< stlb+1; i++){
+        for(var w=0; w<g; w++){
+            funk[i]=new Fraction(funk[i]).add(new Fraction(a[w][i]))
+
+
+        }
+    }
+    for(var i=0; i<funk.length; i++){
+        funk[i]=new Fraction(funk[i]).multiply(new Fraction(-1))
+    }
+    a.push(funk)
+
+
+    h=[]
+
+    var simp=[[" "]];
+    for(var i=1; i< stlb+1; i++){
+        simp[0].push("x"+i);
+    }
+    simp[0].push('const')
+
+    for(var i=0; i<g; i++){
+        h.push("x"+(stlb+1+i));
+        for(var j=0; j< stlb+1; j++){
+            h.push(a[i][j])
+        }
+        simp.push(h);
+        h=[]
+    }
+    funk.unshift(' ');
+    simp.push(funk);
+
+    var stl=simp[0].length;
+
+    function createTbl0() {
+
+
+        var s = "<table>";
+
+
+
+        for(var i = 0; i <g+2; i++){
+            s+='<tr>'
+            for(var j=0; j< stl; j++){
+                if(j>0 && i>0){
+                    var x = new Fraction(simp[i][j]);
+                    simp[i][j] = x.toFraction(true);
+                }
+
+
+                s += "<th id ='table"+idTab+i+j+"'><button type= 'submit' id='but"+idTab+i+j+"'> " +simp[i][j]+ "</button></th>";
+            }
+            s+='</tr>'
+
+        }
+
+        s += "</table> <br><br> ";
+        document.body.innerHTML +=s;
+    }
+
+
+    // проверка на положительные коэффициенты внизу
+    function bottomKCheck0() {
+
+        if((new Fraction(simp[g+1][stl-1]).n)===0){
+            createTbl0()
+            let baz3=[]
+            stop++;
+            simp.shift();
+            for(var i=0; i<g; i++){
+                for(var j=1; j<stl-1; j++){
+                    if((new Fraction(simp[g][j]).n)===1){
+                        simp[i][j]='0';
+                    }
+                }
+                baz3.push(simp[i][0][1])
+                simp[i].shift()
+            }
+
+            simp.pop()
+            localStorage["arrMat1"]=simp;
+            localStorage["baz1"]=baz3;
+
+
+
+            document.body.innerHTML+='<form name="form" onsubmit="return next()" > <br><input type="submit" value="Дальше" style="padding: 4px 16px; border-radius: 20px; background-color: #26bdff; color: black"> </form>'
+        }
+        var q=0;
+        for(var j=1; j<stl-1; j++){
+
+            if((new Fraction(simp[g+1][j]).s)===1) {
+                q++;
+                if (q===stl-2){
+
+                    document.body.innerHTML='Система условий задачи противоречива';
+                createTbl0();
+
+                stop++;}
+            }
+        }
+
+
+    }
+
+
+    //поиск и подсветка опорных
+    function oporSearch0() {
+        var opor=99999999999;
+        for(var j=1; j<stl-1; j++){
+            if((new Fraction(simp[g+1][j]).s)===-1){
+                for(var i=1; i<=g; i++){
+                    if(((new Fraction(simp[i][j]).s)===1)){
+                        if(   (((new Fraction(simp[i][stl-1]).n*new Fraction(simp[i][stl-1]).s)/(new Fraction(simp[i][stl-1]).d))/
+                            ((new Fraction(simp[i][j]).n*new Fraction(simp[i][j]).s)/(new Fraction(simp[i][j]).d)))<=opor  ){
+
+                            opor=(((new Fraction(simp[i][stl-1]).n*new Fraction(simp[i][stl-1]).s)/(new Fraction(simp[i][stl-1]).d))/
+                                ((new Fraction(simp[i][j]).n*new Fraction(simp[i][j]).s)/(new Fraction(simp[i][j]).d)))
+                        }
+                    }
+
+                }
+            }
+            for(var t=1; t<=g; t++){
+                if(opor===((((new Fraction(simp[t][stl-1]).n*new Fraction(simp[t][stl-1]).s)/(new Fraction(simp[t][stl-1]).d))/
+                    ((new Fraction(simp[t][j]).n*new Fraction(simp[t][j]).s)/(new Fraction(simp[t][j]).d))))){
+                    document.getElementById("table"+idTab+t+j).setAttribute("bgcolor", "#87ceeb");
+                    document.getElementById("but"+idTab+t+j).setAttribute("onclick", "getOpor(this.id)");
+                }
+            }
+            opor=99999999999;
+        }
+    }
+    function getOpor(t) {
+        var ti=parseInt(t[4])
+        var tj=parseInt(t[5])
+
+
+        var vrem3=simp[0][tj]
+        simp[0][tj]=simp[ti][0]
+        simp[ti][0] = vrem3
+
+
+        for (var i=1; i<g+2; i++){
+            for (var j=1; j< stl; j++){
+                if(i!==ti){
+                    if(j!==tj){
+                        simp[i][j]= new Fraction(simp[i][j]).subtract(new Fraction( ((new Fraction(simp[ti][j]).multiply(new Fraction(simp[i][tj]))).divide(new Fraction(simp[ti][tj]))) ))
+                    }
+                }
+            }
+        }
+
+        for(var i=1; i<g+2; i++){
+            if(i!==ti){
+                simp[i][tj]=(new Fraction(simp[i][tj]).multiply(new Fraction(-1))).divide(new Fraction(simp[ti][tj]))
+            }
+        }
+        for(var j=1; j<stl; j++){
+            if(j!==tj){
+                simp[ti][j]=new Fraction(simp[ti][j]).divide(new Fraction(simp[ti][tj]))
+            }
+        }
+
+        simp[ti][tj]=new Fraction(1).divide(new Fraction(simp[ti][tj]));
+        idTab++;
+
+
+        sympstep0()
+
+    }
+    sympstep0()
+    function sympstep0() {
+        document.body.innerHTML='';
+        bottomKCheck0()
+        if (stop===0){
+            createTbl0()
+            oporSearch0()
+        }
+    }
+    function comeback0() {
+        if (idTab !== 0) {
+            idTab--;
+        }
+    }
+    function next() {
+        window.location.href="gaussnext.html";
+        event.preventDefault();
+
+
+    }
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

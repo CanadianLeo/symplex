@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Page title</title>
+    <link rel="stylesheet" href="style.css">
+    <script href="jquery.js"></script> 
+</head>
+
+<body>
+    <script>
+        var s = "<form name='form1' onsubmit='return validation2()' >Заполните таблицу: <table><tr>";
+
+        var x = localStorage.getItem('per');
+        var y = localStorage.getItem('ogr');
+
+        for (var i = 0; i < parseInt(x, 10); i++) {
+            s += "<td>x" + (i + 1) + "</td>";
+        }
+        s += "<td>c</td></tr>"
+
+        for (var i = 0; i < parseInt(y, 10); i++) {
+            s += "<tr>";
+            for (var j = 0; j < parseInt(x, 10) + 1; j++) {
+
+                s += "<td>" + "<input id=" + '"matF' + i + j + '"' + "style='width: 50px'>" + "</td>";
+            }
+            s += "</tr>";
+        }
+        s += "</table> <br> <span style='color:#0c045c' id='warning1'></span>";
+        s +=
+            "<input type='submit' value='Отправить' style='padding: 4px 16px; border-radius: 20px; background-color: #26bdff; color: black'>";
+        document.body.innerHTML += s;
+    </script>
+
+    <script type="text/javascript">
+        function validation2() {
+            var arrMat = [];
+            for (i = 0; i < parseInt(y, 10); i++) {
+                arrMat[i] = [];
+                for (j = 0; j < parseInt(x, 10) + 1; j++) {
+                    arrMat[i][j] = document.getElementById('matF' + i + j).value;
+                    if ((arrMat[i][j]) === '') {
+                        document.getElementById("warning1").innerHTML = "*все поля обязательны для заполнения";
+                        return false;
+                    }
+                    if ((arrMat[i][j].search(/\./i) === 0) || (arrMat[i][j].search(/\//i) === 0)) {
+                        document.getElementById("warning1").innerHTML = "*не используйте точек, запятых и / в начале";
+                        return false;
+                    }
+                    if (!(arrMat[i][j].match(/[^\d\s\/\.-]/gi) === null)) {
+                        document.getElementById("warning1").innerHTML =
+                            "*не используйте символов кроме цифр, точки или / с -";
+                        return false;
+                    }
+                    if ((arrMat[i][j].substr(-1) === "/") || (arrMat[i][j].substr(-1) === ".") || (arrMat[i][j].substr(
+                            -1) === "-")) {
+                        document.getElementById("warning1").innerHTML = "*не используйте точек, и / с - в конце ";
+                        return false;
+                    }
+                    if (((arrMat[i][j].split(".").length - 1) > 1) || ((arrMat[i][j].split("/").length - 1) > 1) || ((
+                            arrMat[i][j].split("-").length - 1) > 1)) {
+                        document.getElementById("warning1").innerHTML = "*не используйте много  точек, и / с - ";
+                        return false;
+                    }
+
+                }
+            }
+
+            localStorage["arrMat"] = arrMat;
+            window.location.href = "mib.html";
+            event.preventDefault();
+
+        }
+    </script>
+
+</body>
+
+</html>

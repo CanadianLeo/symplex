@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+	<title>Page title</title>
+    <script href="jquery.js"></script>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        function validate() {
+            //Считаем значения из полей name и email в переменные x и y
+            var x = document.forms["form"]["restriction"].value;
+            localStorage["ogr"] = x;
+            var y = document.forms["form"]["variable"].value;
+            localStorage["per"] = y;
+            var max = document.querySelector('input[type=radio][name=maxmin][id=max]');
+            var min = document.querySelector('input[type=radio][name=maxmin][id=min]');
+
+
+            if (x.length === 0) {
+                doument.getElementById("restrictionf").innerHTML = "*данное поле обязательно для заполнения";
+                return false;
+            }
+            if (isNaN(x) === true) {
+                document.getElementById("restrictionf").innerHTML = "*вводите только целые числа";
+                return false;
+            }
+            if (parseInt(x, 10) < 1 || parseInt(x, 10) > 16) {
+                document.getElementById("restrictionf").innerHTML = "*вводите числа от 1 до 16";
+                return false;
+            }
+
+            if (y.length === 0) {
+                document.getElementById("variablef").innerHTML = "*данное поле обязательно для заполнения";
+                return false;
+            }
+            if (isNaN(y) === true) {
+                document.getElementById("variablef").innerHTML = "*вводите только целые числа";
+                return false;
+            }
+            if ((parseInt(y, 10) < parseInt(x, 10)) || (parseInt(y, 10) > 16)) {
+                document.getElementById("variablef").innerHTML = "*вводите числа от " + x + "  до 16";
+                return false;
+            }
+
+            if ((!(max.checked)) && (!(min.checked))) {
+                document.getElementById("minmaxf").innerHTML = "Максимизируйте или минимизируйте целевую функцию.";
+                return false;
+            }
+            if (max.checked) {
+                var type = "max";
+            } else {
+                var type = "min";
+            }
+            localStorage["maxmin"] = type;
+            window.location.href = "secondpage.html";
+            event.preventDefault();
+
+        }
+    </script>
+
+
+    <form name="form" onsubmit="return validate()">
+        <span class="error" id="restrictionf"></span><br>
+        Количество ограничений: 
+        <input class="textbox" type="text" name="restriction"><br>
+        <br>
+
+        <span class="error" id="variablef"></span><br>
+        Количество переменных: <input class="textbox" type="text" name="variable"> <br>
+        <br>
+        Тип задачи: <input type="radio" name="maxmin" id="max" />Max
+        <input type="radio" name="maxmin" id="min" />Min <br><span style="color:#0c045c" id="minmaxf"></span><br>
+
+
+        <br><input class="button" type="submit" value="Отправить">
+
+    </form>
+
+</body>
+
+</html>
